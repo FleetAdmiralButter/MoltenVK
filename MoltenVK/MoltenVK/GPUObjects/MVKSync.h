@@ -183,6 +183,11 @@ public:
 	/** Returns whether this semaphore uses command encoding. */
 	virtual bool isUsingCommandEncoding() = 0;
 
+	void encodeWait(id<MTLCommandBuffer> cmdBuff);
+
+	void encodeSignal(id<MTLCommandBuffer> cmdBuff);
+
+
 	/**
 	 * Returns the MTLSharedEvent underlying this Vulkan semaphore,
 	 * or nil if this semaphore is not underpinned by a MTLSharedEvent.
@@ -196,7 +201,8 @@ public:
 
 protected:
 	void propagateDebugName() override {}
-
+	id<MTLEvent> _mtlEvent;
+	std::atomic<uint64_t> _mtlEventValue;
 };
 
 
